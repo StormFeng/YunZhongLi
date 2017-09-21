@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">云众利</string>
+    <string name="account_limit">0123456789qwertyuiopasdfghjklzxcvbnm_QWERTYUIOPASDFGHJKLZXCVBNM</string>
+    <string name="cardNum">0123456789Xx</string>
+</resources>

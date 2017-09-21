@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.midian.base.widget.BaseLibTopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.midian.base.widget.BaseLibTopbarView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.每天签到可得2积分，连续签到至第7天得10积分"
+            android:textSize="14sp"
+            android:textColor="#6D6D6D"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.用户可以通过APP点击签到参与"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#6D6D6D"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3.连续签到送积分"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#6D6D6D"/>
+    </LinearLayout>
+</LinearLayout>

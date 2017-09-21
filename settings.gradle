@@ -1,0 +1,2 @@
+include ':app', ':rxtools'
+include 'thirdpackage'

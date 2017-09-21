@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.lida.cloud"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 15
+        versionName "1.1.5"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main{
+            jniLibs.srcDir 'libs'
+        }
+    }
+    signingConfigs {
+        debug {
+            keyAlias 'cloud'
+            keyPassword 'cloud123'
+            storeFile file("$rootDir/cloud.jks")
+            storePassword 'cloud123'
+        }
+        release {
+            keyAlias 'cloud'
+            keyPassword 'cloud123'
+            storeFile file("$rootDir/cloud.jks")
+            storePassword 'cloud123'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'am.widget:basetabstrip:24.2.1'
+    compile 'com.jakewharton:butterknife:8.8.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
+    compile 'com.github.hackware1993:MagicIndicator:1.4.0'
+//        compile 'com.github.vondear:RxTools:v1.7.3.7'
+    compile 'com.zhy:flowlayout-lib:1.0.3'
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+    compile 'com.github.codbking:PickTime:v1.0.1'
+    compile 'com.github.vipulasri:timelineview:1.0.5'
+    compile 'com.github.baoyachi:StepView:1.9'
+    compile project(':rxtools')
+}

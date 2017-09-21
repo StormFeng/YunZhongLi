@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <com.midian.base.widget.BaseLibTopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.midian.base.widget.BaseLibTopbarView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:background="@drawable/icon_transfer_bg"
+        android:orientation="vertical"
+        android:gravity="center">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:riv_corner_radius="30dp"
+            android:src="@drawable/icon_transfer_logo"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/tvShopName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商家名称"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <com.lida.cloud.widght.InnerGridView
+        android:id="@+id/gvIconTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="@android:color/transparent"
+        android:background="@color/white"
+        android:numColumns="2">
+    </com.lida.cloud.widght.InnerGridView>
+</LinearLayout>

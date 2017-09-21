@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.midian.base.widget.BaseLibTopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.midian.base.widget.BaseLibTopbarView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#1199EE">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivHead"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:riv_corner_radius="30dp"
+            android:src="#eee"/>
+        <TextView
+            android:id="@+id/tvAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="6dp"
+            android:text="会员账号"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="会员说明"
+        android:textSize="14sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:lineSpacingExtra="3dp"
+        android:text="1.会员等级有普通会员、青铜会员、白银会员、铂金会员、钻石会员等五个等级。\n2.随着信用积分达到数值，会员可自动升级。\n3.升级数值：青铜：免费，白银：100，铂金10000，钻石：10000。\n4.积分返现比例：青铜：0.03%，白银：0.05%，铂金：0.07%，钻石：0.07%。"
+        android:textSize="13sp"/>
+</LinearLayout>

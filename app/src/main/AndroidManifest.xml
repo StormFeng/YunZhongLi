@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.lida.cloud">
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:name="com.lida.cloud.app.BaseAppContext"
+        android:allowBackup="true"
+        android:icon="@drawable/icon_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme1">
+
+        <!--刷新商品收藏列表-->
+        <receiver android:name="com.lida.cloud.broadcast.RefreshCollectGood">
+            <intent-filter>
+                <action android:name="android.intent.action.RefreshCollectGood"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <!--刷新店铺收藏列表-->
+        <receiver android:name="com.lida.cloud.broadcast.RefreshCollectShop">
+            <intent-filter>
+                <action android:name="android.intent.action.RefreshCollectShop"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <!--我的收藏编辑-->
+        <receiver android:name="com.lida.cloud.broadcast.EditBroadCast">
+            <intent-filter>
+                <action android:name="android.intent.action.EDITBROADCAST"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <!--修改头像刷新-->
+        <receiver android:name="com.lida.cloud.broadcast.PersonalInfoRefreshBroadCast">
+            <intent-filter>
+                <action android:name="android.intent.action.PersonalInfoRefreshBroadCast"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <!--刷新购物车-->
+        <receiver android:name="com.lida.cloud.broadcast.RefreshShopCar">
+            <intent-filter>
+                <action android:name="android.intent.action.RefreshShopCar"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <!--刷新订单列表-->
+        <receiver android:name="com.lida.cloud.broadcast.RefreshOrderList">
+            <intent-filter>
+                <action android:name="android.intent.action.RefreshOrderList"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".RefreshService"/>
+        <!--支付宝支付-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+
+        <!--百度地图-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="5koxQ4h3dLzqTOkVRrYdInhQUZ9kdxMd" />
+
+        <activity android:name="com.lida.cloud.activity.ActivityLoginAct"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!--微博分享-->
+        <activity
+            android:name=".WBShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!--微信-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:name=".MainActivity"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".activity.ActivityRegister"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--余额-->
+        <activity android:name="com.lida.cloud.activity.ActivityBalance"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--充值-->
+        <activity android:name="com.lida.cloud.activity.ActivityRecharge"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--银行卡-->
+        <activity android:name="com.lida.cloud.activity.ActivityBankCard"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--添加银行卡-->
+        <activity android:name=".activity.ActivityAddBankCard"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--消费豆-->
+        <activity android:name="com.lida.cloud.activity.ActivityConsumptionBean"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--设置-->
+        <activity android:name="com.lida.cloud.activity.ActivitySetting"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--账号设置-->
+        <activity android:name="com.lida.cloud.activity.ActivityAccountSetting"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--昵称-->
+        <activity android:name="com.lida.cloud.activity.ActivityChangeNick"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--绑定手机号-->
+        <activity android:name="com.lida.cloud.activity.ActivityBindNewPhone"
+                  android:launchMode="singleTop"
+                  android:taskAffinity="com.lida.cloud.bindPhone"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".activity.ActivityBindNewPhoneFirstStep"
+                  android:launchMode="singleTop"
+                  android:taskAffinity="com.lida.cloud.bindPhone"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--修改密码-->
+        <activity android:name="com.lida.cloud.activity.ActivityChangePass"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--新闻资讯-->
+        <!--关于我们-->
+        <activity android:name="com.lida.cloud.activity.ActivityAboutUs"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--收货地址-->
+        <activity android:name="com.lida.cloud.activity.ActivityAddress"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--消费豆明细-->
+        <activity android:name="com.lida.cloud.activity.ActivityConsumptionBeanDetail"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--消费豆充值-->
+        <activity android:name="com.lida.cloud.activity.ActivityRechargeBean"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--转账-->
+        <activity android:name="com.lida.cloud.activity.ActivityTransfer"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--转账下一步-->
+        <activity android:name="com.lida.cloud.activity.ActivityTransferNext"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--余额明细-->
+        <activity android:name="com.lida.cloud.activity.ActivityBalanceDetail"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--粉丝公益-->
+        <activity android:name="com.lida.cloud.activity.ActivityPublicWelfare"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--签到-->
+        <activity android:name="com.lida.cloud.activity.ActivitySign"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--签到规则-->
+        <activity android:name="com.lida.cloud.activity.ActivitySignRule"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--我的收藏-->
+        <activity android:name="com.lida.cloud.activity.ActivityCollection"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--新增收货地址-->
+        <activity android:name="com.lida.cloud.activity.ActivityAddAddress"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--商品列表-->
+        <activity android:name="com.lida.cloud.activity.ActivityGoodList"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--商品详情-->
+        <activity android:name="com.lida.cloud.activity.ActivityGoodDetail"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--店铺详情-->
+        <activity android:name="com.lida.cloud.activity.ActivityShopDetail"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--昨日结算-->
+        <activity android:name="com.lida.cloud.activity.ActivitySettlement"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--我的推荐-->
+        <activity android:name="com.lida.cloud.activity.ActivityMyRecommend"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--我的订单-->
+        <activity android:name=".activity.ActivityMyOrder"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--提现-->
+        <activity android:name=".activity.ActivityGetMoney"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--商户中心-->
+        <activity android:name=".activity.ActivityShopCenter"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--添加银行卡-->
+        <activity android:name=".activity.ActivitySupportBankList"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--转出积分-->
+        <activity android:name=".activity.ActivityIntegralOut"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--库存积分-->
+        <activity android:name=".activity.ActivityIntegralStock"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--购买积分-->
+        <activity android:name=".activity.ActivityIntegralBuy"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--代理中心-->
+        <activity android:name=".activity.ActivityAgentCenter"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--代理中心-销售额-->
+        <activity android:name=".activity.ActivityAgentCenterSalesVolume"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--代理中心-销售额-->
+        <activity android:name=".activity.ActivityAgentCenterRevenue"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--销售额-选择时间-->
+        <activity android:name=".activity.ActivitySalesChooseTime"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--商家认证-->
+        <activity android:name=".activity.ActivityShopAuth"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--商户基本资料-->
+        <activity android:name=".activity.ActivityShopBaseInfo"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--省-->
+        <activity android:name=".activity.ActivityProvince"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--市-->
+        <activity android:name=".activity.ActivityCity"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--区-->
+        <activity android:name=".activity.ActivityCountry"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--新闻资讯列表-->
+        <activity android:name=".activity.ActivityNewsList"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--找回密码-->
+        <activity android:name=".activity.ActivityForgetPass"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--结算-提交订单-->
+        <activity android:name=".activity.ActivityReadyToCommitOrder"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--粉丝公益-公益详情-->
+        <activity android:name=".activity.ActivityPublicWelfareDetail"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--付款成功-->
+        <activity android:name=".ActivityPaySuccess"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--立即支付-->
+        <activity android:name=".activity.ActivityPayNow"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--实名认证-->
+        <activity android:name=".activity.ActivityAuth"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--查看物流-->
+        <activity android:name=".activity.ActivityLogistics"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--商品评价-->
+        <activity android:name=".activity.ActivityGoodCommend"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--举报商家-->
+        <activity android:name=".activity.ActivityReport"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--模糊搜索-->
+        <activity android:name=".activity.ActivitySearch"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--会员升级-->
+        <activity android:name=".activity.ActivityUpdate"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--退货申请-->
+        <activity android:name=".activity.ActivityApplyToReturn"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--退货详情-->
+        <activity android:name=".activity.ActivityReturnDetail"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <!--积分明细-->
+        <activity android:name=".activity.ActivityCreditDetail"
+                  android:launchMode="singleTop"
+                  android:windowSoftInputMode="adjustPan|stateHidden"/>
+    </application>
+
+</manifest>

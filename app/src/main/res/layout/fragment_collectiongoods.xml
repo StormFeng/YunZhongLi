@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:numColumns="2"
+        android:listSelector="@android:color/transparent"
+        android:verticalSpacing="6dp"
+        android:horizontalSpacing="6dp"
+        android:scrollbars="none"
+        android:layout_weight="1">
+    </GridView>
+    <Button
+        android:id="@+id/btnDel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#F1403B"
+        android:text="删除"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:textSize="14sp"/>
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="259.2dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_4radiu_white"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#242424"
+            android:text="请选择"/>
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+            <RadioButton
+                android:id="@+id/tvReadyDo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="拍照"
+                android:button="@null"
+                android:textSize="15sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="#242424" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/divide_line"/>
+            <RadioButton
+                android:id="@+id/tvAlreadyDo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="相册"
+                android:button="@null"
+                android:textSize="15sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="#242424" />
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>

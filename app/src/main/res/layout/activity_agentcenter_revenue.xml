@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.midian.base.widget.BaseLibTopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.midian.base.widget.BaseLibTopbarView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="合计收入"
+            android:textColor="#ffffff"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            />
+        <TextView
+            android:id="@+id/sum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text=""
+            android:textColor="#ffffff"
+            android:paddingLeft="15dp"
+            android:paddingBottom="20dp"
+            />
+    </LinearLayout>
+
+    <com.midian.base.widget.astickyheader.PinnedSectionListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.midian.base.widget.astickyheader.PinnedSectionListView>
+
+</LinearLayout>
