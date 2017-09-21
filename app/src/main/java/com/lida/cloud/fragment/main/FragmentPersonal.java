@@ -21,6 +21,7 @@ import com.lida.cloud.activity.ActivitySetting;
 import com.lida.cloud.adapter.AdapterPersonalIconTab;
 import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.bean.PersonalInfoBean;
+import com.lida.cloud.bean.SignBean;
 import com.lida.cloud.broadcast.PersonalInfoRefreshBroadCast;
 import com.lida.cloud.widght.InnerGridView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -32,6 +33,9 @@ import com.midian.base.util.UIHelper;
 import com.midian.base.widget.BaseLibTopbarView;
 import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.view.RxToast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +84,7 @@ public class FragmentPersonal extends BaseFragment{
     TextView tvConsumptionBean;
 
     public String head = null;
+    public String qCode = null;
     private PersonalInfoRefreshBroadCast personalInfoRefreshBroadCast;
 
     @Override
@@ -175,35 +180,49 @@ public class FragmentPersonal extends BaseFragment{
         public void onApiSuccess(NetResult res, String tag) {
             _activity.hideLoadingDlg();
             if (res.isOK()) {
-                PersonalInfoBean bean = (PersonalInfoBean) res;
-                PersonalInfoBean.DataBean dataBean = bean.getData().get(0);
-                if(dataBean.getMem_tx()!=null){
-                    head = dataBean.getMem_tx();
-                    ac.setImage(ivHead, dataBean.getMem_tx());
+                if("getPersonalInfo".equals(tag)){
+                    PersonalInfoBean bean = (PersonalInfoBean) res;
+                    PersonalInfoBean.DataBean dataBean = bean.getData().get(0);
+                    if(dataBean.getMem_tx()!=null){
+                        head = dataBean.getMem_tx();
+                        ac.setImage(ivHead, dataBean.getMem_tx());
+                    }
+                    String mem_state = dataBean.getMem_state();
+                    String mem_name = dataBean.getMem_name();
+                    if("0".equals(mem_state)){
+                        tvName.setText(mem_name+"(普通会员)");
+                    }else if("1".equals(mem_state)){
+                        tvName.setText(mem_name+"(银钻会员)");
+                    }else if("2".equals(mem_state)){
+                        tvName.setText(mem_name+"(金钻会员)");
+                    }else if("3".equals(mem_state)){
+                        tvName.setText(mem_name+"(商家)");
+                    }
+                    ac.saveMemState(mem_state);
+                    tvBalance.setText(dataBean.getMem_yue());
+                    tvCreditScore.setText(dataBean.getMem_credit());
+                    tvConsumptionBean.setText(dataBean.getMem_pay_beans());
+                    qCode = dataBean.getQrcode();
                 }
-                String mem_state = dataBean.getMem_state();
-                String mem_name = dataBean.getMem_name();
-                if("0".equals(mem_state)){
-                    tvName.setText(mem_name+"(普通会员)");
-                }else if("1".equals(mem_state)){
-                    tvName.setText(mem_name+"(银钻会员)");
-                }else if("2".equals(mem_state)){
-                    tvName.setText(mem_name+"(金钻会员)");
-                }else if("3".equals(mem_state)){
-                    tvName.setText(mem_name+"(商家)");
-                }else if("3".equals(mem_state)){
-                    tvName.setText(mem_name+"(微商)");
+                if("token".equals(tag)){
+                    SignBean bean = (SignBean) res;
+                    try {
+                        JSONObject jsonObject = new JSONObject(bean.getData().get(0).getTokenInfo());
+                        ac.saveUserInfo(jsonObject.getInt("uid")+"",jsonObject.getString("access_token"),
+                                jsonObject.getString("refresh_token"),jsonObject.getString("timestamp")+"000");
+                        AppUtil.getApiClient(ac).getPersonalInfo(_activity, ac.memid, callback);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-                ac.saveMemState(mem_state);
-                tvBalance.setText(dataBean.getMem_yue());
-                tvCreditScore.setText(dataBean.getMem_credit());
-                tvConsumptionBean.setText(dataBean.getMem_pay_beans());
+
             }else{
                 RxToast.error(_activity,res.getMessage()).show();
-                if("10001".equals(res.getErrorCode())||"10002".equals(res.getErrorCode())
-                        ||"10003".equals(res.getErrorCode())){
+                if("10001".equals(res.getErrorCode())){
                     ac.clearUserInfo();
                     RxActivityUtils.skipActivityAndFinishAll(AppManager.getAppManager().currentActivity(), ActivityLoginAct.class);
+                }else if("10002".equals(res.getErrorCode())){
+                    AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
                 }
             }
         }

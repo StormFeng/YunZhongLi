@@ -69,11 +69,24 @@ public class GoodDetailBean extends NetResult {
         private String is_spec;
         private String status;
         private String content;
+        private String url;
         private boolean is_collect;
         private StoreBean store;
         private List<String> goods_images;
         private List<List<String>> attribute;
         private List<SpecBean> spec;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public boolean is_collect() {
+            return is_collect;
+        }
 
         public String getGoods_id() {
             return goods_id;

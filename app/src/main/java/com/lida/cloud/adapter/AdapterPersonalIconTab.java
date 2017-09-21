@@ -27,6 +27,7 @@ import com.lida.cloud.activity.ActivityUpdate;
 import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.bean.CheckIsShopMember;
 import com.lida.cloud.fragment.main.FragmentPersonal;
+import com.lida.cloud.widght.dialog.DialogShare;
 import com.midian.base.api.ApiCallback;
 import com.midian.base.app.AppContext;
 import com.midian.base.base.BaseActivity;
@@ -61,7 +62,7 @@ public class AdapterPersonalIconTab extends BaseAdapter {
     }
 
     private void initData(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
             Bean bean = new Bean();
             switch (i) {
                 case 0:
@@ -111,6 +112,10 @@ public class AdapterPersonalIconTab extends BaseAdapter {
                     bean.setTitle("代理中心");
                     bean.setImg(R.drawable.icon_personal_tab10);
                     bean.setTarget(ActivityAgentCenter.class);
+                    break;
+                case 10:
+                    bean.setTitle("分享");
+                    bean.setImg(R.drawable.icon_personal_tab10);
                     break;
             }
             data.add(bean);
@@ -225,6 +230,9 @@ public class AdapterPersonalIconTab extends BaseAdapter {
                         }
                     }
                     UIHelper.jump(context,data.get(position).getTarget());
+                }else{
+                    new DialogShare(context,"加入云众利，消费不再贵","泉州云众利网络科技有限公司（以下简称：云众利）由福建本土民营企业家黄文汉先生投资创建，于2017年4月在泉州工商局注册成立（目前注册资金为800万元）",
+                            fragmentPersonal.qCode).show();
                 }
             }
         });

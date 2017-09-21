@@ -52,6 +52,24 @@ public class MyBankCardListBean extends NetResult {
         private String b_bankid;
         private String b_bank_code;
         private String b_bank_name;
+        private String b_bank_image;
+        private String b_bg_image;
+
+        public String getB_bg_image() {
+            return b_bg_image;
+        }
+
+        public void setB_bg_image(String b_bg_image) {
+            this.b_bg_image = b_bg_image;
+        }
+
+        public String getB_bank_image() {
+            return b_bank_image;
+        }
+
+        public void setB_bank_image(String b_bank_image) {
+            this.b_bank_image = b_bank_image;
+        }
 
         public String getB_id() {
             return b_id;

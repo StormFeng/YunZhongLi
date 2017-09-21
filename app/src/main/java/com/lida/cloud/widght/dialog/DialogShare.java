@@ -114,12 +114,13 @@ public class DialogShare extends Dialog {
     };
 
     public void share(SHARE_MEDIA platform, String title, String content, String targetUrl) {
+//        http://yzl.gzldrj.com/wap/member/us
         UMImage umImage = new UMImage(context, R.drawable.icon_logo);
         new ShareAction((Activity) context).setPlatform(platform)
                 .withTitle(title)
                 .withText(content)
                 .withMedia(umImage)
-                .withTargetUrl("http://yzl.gzldrj.com/wap/member/us")
+                .withTargetUrl(targetUrl)
                 .setCallback(listener)
                 .share();
     }

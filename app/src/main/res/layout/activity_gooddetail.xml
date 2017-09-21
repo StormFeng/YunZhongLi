@@ -175,9 +175,11 @@
                             android:text="选择颜色分类"
                             android:drawableRight="@drawable/icon_arrow_r"/>
                         <LinearLayout
+                            android:id="@+id/llStore"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:visibility="gone"
                             android:orientation="horizontal"
                             android:gravity="center_vertical">
                             <ImageView
@@ -273,6 +275,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:textSize="12sp"
+                android:visibility="gone"
                 android:drawablePadding="5dp"
                 android:drawableTop="@mipmap/icon_shop"/>
             <View

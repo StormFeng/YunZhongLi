@@ -260,6 +260,9 @@ public class Constant {
     /*信用积分记录*/
     public static final String MEMBERCREDIT_LOG = BASEURL + "/api/member/credit_log";
 
+    /*删除银行卡*/
+    public static final String BANKREMOVE = BASEURL + "/api/bank/remove";
+
     /**
      * 代理中心
      */

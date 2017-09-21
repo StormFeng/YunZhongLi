@@ -88,7 +88,7 @@ public class NumberWidget extends LinearLayout implements View.OnClickListener {
     }
 
     public void setLimit(int limit){
-        setNumber("0");
+        setNumber("1");
         this.limit = limit;
     }
 
@@ -98,5 +98,10 @@ public class NumberWidget extends LinearLayout implements View.OnClickListener {
 
     public void setOnBtnClickedListener(OnBtnClickedListener listener){
         this.listener=listener;
+    }
+
+    public void setCanClick(boolean var){
+        tvPlus.setClickable(var);
+        tvReduce.setClickable(var);
     }
 }

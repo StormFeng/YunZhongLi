@@ -65,6 +65,7 @@ public class AdapterGvHotGoods extends BaseAdapter {
         }
         ac.setImage(viewHolder.iv,goodsData.get(position).getGoods_image());
         viewHolder.tv.setText(goodsData.get(position).getGoods_name());
+        viewHolder.tvPrice.setText("消费豆：" + goodsData.get(position).getCost());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +82,8 @@ public class AdapterGvHotGoods extends BaseAdapter {
         ImageView iv;
         @BindView(R.id.tv)
         TextView tv;
+        @BindView(R.id.tvPrice)
+        TextView tvPrice;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

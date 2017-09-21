@@ -1539,6 +1539,24 @@ public class Api extends BaseApiClient {
                 getMethodName(Thread.currentThread().getStackTrace()));
     }
 
+    /**
+     * 解绑银行卡
+     * @param callback
+     */
+    public void bankRemove(String id,ApiCallback callback) {
+        AjaxParams params = new AjaxParams();
+        params.put("memid", ac.memid);
+        JSONObject jsonTypeSign = AesEncryptionUtil.getJsonTypeSign(ac);
+        try {
+            jsonTypeSign.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        params.put("sign",AesEncryptionUtil.encrypt(ac,jsonTypeSign.toString()));
+        post(callback, Constant.BANKREMOVE, params, NetResult.class,
+                getMethodName(Thread.currentThread().getStackTrace()));
+    }
+
 
 }
 

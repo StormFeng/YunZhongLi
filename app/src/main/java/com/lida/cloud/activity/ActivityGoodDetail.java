@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
-import com.apkfuns.logutils.LogUtils;
 import com.lida.cloud.R;
 import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.bean.CollectBean;
@@ -31,7 +30,9 @@ import com.midian.base.bean.NetResult;
 import com.midian.base.util.UIHelper;
 import com.midian.base.widget.Banner;
 import com.midian.base.widget.BaseLibTopbarView;
+import com.midian.base.widget.PhotoPicker.PhotoPreview;
 import com.midian.base.widget.ScrollViewWidthListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.view.RxToast;
 
@@ -46,7 +47,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,6 +118,8 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
     LinearLayout llGood;
 
     private static final String[] CHANNELS = new String[]{"商品详情", "商品评价"};
+    @BindView(R.id.llStore)
+    LinearLayout llStore;
     private List<Fragment> fragments = new ArrayList<>();
     private GoodDetailBean data;
     private String goodId;
@@ -159,11 +161,20 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
                 if ("goodDetail".equals(tag)) {
                     data = (GoodDetailBean) res;
                     GoodDetailBean.DataBean bean = data.getData().get(0);
-                    ArrayList imgs = new ArrayList();
+                    final ArrayList imgs = new ArrayList();
                     if (bean.getGoods_images().size() > 0) {
                         imgs.addAll(bean.getGoods_images());
                     }
                     banner.setImages(imgs.toArray());
+                    banner.setOnBannerClickListener(new Banner.OnBannerClickListener() {
+                        @Override
+                        public void OnBannerClick(View view, int position) {
+                            PhotoPreview.builder().setPhotos(imgs)
+                                    .setCurrentItem(position-1)
+                                    .setShowDeleteButton(false)
+                                    .start(_activity);
+                        }
+                    });
                     tvGoodName.setText(bean.getGoods_name());
                     tvPrice.setText("消费豆：" + bean.getCost());
                     tvMarketPrice.setText("市场参考价：¥" + bean.getMarket_price());
@@ -172,15 +183,15 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
                     if (bean.getStore().getLogo() != null) {
                         ac.setImage(ivShop, bean.getStore().getLogo());
                     }
-                    if(bean.isIs_collect()){
+                    if (bean.isIs_collect()) {
                         cbCollection.setChecked(true);
-                    }else{
+                    } else {
                         cbCollection.setChecked(false);
                     }
-                    tvIntegral.setText("购买可得"+bean.getCredit()+"分");
+                    tvIntegral.setText("购买可得" + bean.getCredit() + "分");
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("data",data);
-                    bundle.putString("id",goodId);
+                    bundle.putSerializable("data", data);
+                    bundle.putString("id", goodId);
                     framengGoodWebDetail = new FramengGoodWebDetail();
                     framengGoodComment = new FramengGoodComment();
                     framengGoodWebDetail.setArguments(bundle);
@@ -198,27 +209,34 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
                             return fragments.size();
                         }
                     });
+                    if ("0".equals(bean.getStore().getStore_id())) {
+                        llStore.setVisibility(View.GONE);
+                        btnShop.setVisibility(View.GONE);
+                    }else{
+                        llStore.setVisibility(View.VISIBLE);
+                        btnShop.setVisibility(View.VISIBLE);
+                    }
                 }
-                if("cartAdd".equals(tag)){
+                if ("cartAdd".equals(tag)) {
                     RxToast.success("添加成功！");
                     Intent intent = new Intent("android.intent.action.RefreshShopCar");
                     sendBroadcast(intent);
                 }
-                if("collectGood".equals(tag)){
+                if ("collectGood".equals(tag)) {
                     RxToast.success("操作成功");
                     CollectBean bean = (CollectBean) res;
-                    if(bean.getData().get(0).getState()==0){
+                    if (bean.getData().get(0).getState() == 0) {
                         cbCollection.setChecked(false);
-                    }else{
+                    } else {
                         cbCollection.setChecked(true);
                     }
                     Intent intent = new Intent("android.intent.action.RefreshCollectGood");
                     sendBroadcast(intent);
                 }
-            }else{
+            } else {
                 RxToast.error(res.getMessage());
-                if("10001".equals(res.getErrorCode())||"10002".equals(res.getErrorCode())
-                        ||"10003".equals(res.getErrorCode())){
+                if ("10001".equals(res.getErrorCode()) || "10002".equals(res.getErrorCode())
+                        || "10003".equals(res.getErrorCode())) {
                     ac.clearUserInfo();
                     RxActivityUtils.skipActivityAndFinishAll(AppManager.getAppManager().currentActivity(), ActivityLoginAct.class);
                 }
@@ -273,7 +291,7 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
         cbCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtil.getApiClient(ac).collectGood(_activity,goodId,callback);
+                AppUtil.getApiClient(ac).collectGood(_activity, goodId, callback);
             }
         });
         initMagicIndicator();
@@ -326,8 +344,8 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
     }
 
     private void showDialog() {
-        if(dialogChooseColor==null){
-            dialogChooseColor = new DialogChooseColor(_activity,data);
+        if (dialogChooseColor == null) {
+            dialogChooseColor = new DialogChooseColor(_activity, data);
             dialogChooseColor.setOnSelectButtonClickListener(this);
         }
         dialogChooseColor.show();
@@ -341,44 +359,46 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
                 showDialog();
                 break;
             case R.id.btnInShop:
-                bundle.putString("selid",data.getData().get(0).getStore().getStore_id());
-                UIHelper.jump(_activity,ActivityShopDetail.class,bundle);
+                bundle.putString("selid", data.getData().get(0).getStore().getStore_id());
+                UIHelper.jump(_activity, ActivityShopDetail.class, bundle);
                 break;
             case R.id.btnShop:
-                bundle.putString("selid",data.getData().get(0).getStore().getStore_id());
-                UIHelper.jump(_activity,ActivityShopDetail.class,bundle);
+                bundle.putString("selid", data.getData().get(0).getStore().getStore_id());
+                UIHelper.jump(_activity, ActivityShopDetail.class, bundle);
                 break;
             case R.id.btnShare:
-                new DialogShare(_activity,"加入云众利，消费不再贵","泉州云众利网络科技有限公司（以下简称：云众利）由福建本土民营企业家黄文汉先生投资创建，于2017年4月在泉州工商局注册成立（目前注册资金为800万元）",
-                        "http://www.baidu.com").show();
+                DialogShare dialogShare = new DialogShare(_activity);
+                dialogShare.share(SHARE_MEDIA.WEIXIN,"加入云众利，消费不再贵",
+                        "泉州云众利网络科技有限公司（以下简称：云众利）由福建本土民营企业家黄文汉先生投资创建，于2017年4月在泉州工商局注册成立（目前注册资金为800万元）",
+                        data.getData().get(0).getUrl());
                 break;
             case R.id.btnAddToShopCar:
-                if("1".equals(data.getData().get(0).getIs_spec())){
-                    if(selectColor == NULL){
+                if ("1".equals(data.getData().get(0).getIs_spec())) {
+                    if (selectColor == NULL) {
                         RxToast.warning("请选择规格");
                         showDialog();
                         return;
                     }
                     String spec_id = data.getData().get(0).getSpec().get(selectColor).getSpec_id();
-                    AppUtil.getApiClient(ac).cartAdd(goodId,selectCount, spec_id,callback);
-                }else{
-                    AppUtil.getApiClient(ac).cartAdd(goodId,selectCount,"",callback);
+                    AppUtil.getApiClient(ac).cartAdd(goodId, selectCount, spec_id, callback);
+                } else {
+                    AppUtil.getApiClient(ac).cartAdd(goodId, selectCount, "", callback);
                 }
                 break;
             case R.id.btnBuyNow:
                 String spec_id = "";
-                if("1".equals(data.getData().get(0).getIs_spec())){
-                    if(selectColor == NULL){
+                if ("1".equals(data.getData().get(0).getIs_spec())) {
+                    if (selectColor == NULL) {
                         RxToast.warning("请选择规格");
                         showDialog();
                         return;
                     }
                     spec_id = data.getData().get(0).getSpec().get(selectColor).getSpec_id();
                 }
-                bundle.putString("goodsid",goodId);
-                bundle.putString("total",selectCount);
-                bundle.putString("specid",spec_id);
-                UIHelper.jump(_activity,ActivityReadyToCommitOrder.class,bundle);
+                bundle.putString("goodsid", goodId);
+                bundle.putString("total", selectCount);
+                bundle.putString("specid", spec_id);
+                UIHelper.jump(_activity, ActivityReadyToCommitOrder.class, bundle);
                 break;
         }
     }

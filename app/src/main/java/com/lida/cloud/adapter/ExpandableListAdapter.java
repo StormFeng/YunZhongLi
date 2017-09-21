@@ -116,7 +116,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ChildViewHolder holder;
+        final ChildViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_shopingcarchild, parent, false);
             holder = new ChildViewHolder(convertView);
@@ -134,12 +134,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         holder.numEdit.setOnBtnClickedListener(new NumberWidget.OnBtnClickedListener() {
             @Override
             public void onBtnClicked(final int i, final boolean isAdd) {
-                allMoney = goodBean.getAllMoney();
+
                 AppUtil.getApiClient(ac).cartUpdate(goodBean.getData().get(groupPosition).getList().get(childPosition).getId(),
                         "",i+"",new BaseApiCallback(){
                             @Override
+                            public void onApiStart(String tag) {
+                                super.onApiStart(tag);
+                                allMoney = goodBean.getAllMoney();
+                                holder.numEdit.setCanClick(false);
+                            }
+
+                            @Override
                             public void onApiSuccess(NetResult res, String tag) {
                                 super.onApiSuccess(res, tag);
+                                holder.numEdit.setCanClick(true);
                                 if(res.isOK()){
                                     goodBean.getData().get(groupPosition).getList().get(childPosition).setTotal(i+"");
 //                                    if (goodBean.getData().get(groupPosition).getList().get(childPosition).isSelected()) {
@@ -266,8 +274,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                         AppUtil.getApiClient(ac).cartDefault(goodBean.getData().get(groupPosition).getList().get(i).getId(),
                                 isSelect+"",new BaseApiCallback(){
                                     @Override
+                                    public void onApiStart(String tag) {
+                                        super.onApiStart(tag);
+                                        checkBox.setChecked(false);
+                                    }
+
+                                    @Override
                                     public void onApiSuccess(NetResult res, String tag) {
                                         super.onApiSuccess(res, tag);
+                                        checkBox.setChecked(true);
                                         if(res.isOK()){
                                             if(finalI == goodBean.getData().get(groupPosition).getList().size()-1){
                                                 goodBean.getData().get(groupPosition).setSelected(!checkBox.isChecked());
@@ -333,8 +348,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     AppUtil.getApiClient(ac).cartDefault(goodBean.getData().get(groupId).getList().get(childId).getId(),
                             isSelect+"",new BaseApiCallback(){
                                 @Override
+                                public void onApiStart(String tag) {
+                                    super.onApiStart(tag);
+                                    checkBox.setClickable(false);
+                                }
+
+                                @Override
                                 public void onApiSuccess(NetResult res, String tag) {
                                     super.onApiSuccess(res, tag);
+                                    checkBox.setClickable(true);
                                     if(res.isOK()){
                                         goodBean.getData().get(finalGroupId1).getList().get(finalChildId1).setIsselect(isSelect);
 //                                        goodBean.getData().get(finalGroupId1).getList().get(finalChildId1).setSelected(!checkBox.isChecked());

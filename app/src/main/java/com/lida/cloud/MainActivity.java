@@ -17,16 +17,23 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.lida.cloud.app.AppUtil;
+import com.lida.cloud.bean.SignBean;
 import com.lida.cloud.fragment.main.FragmentHome;
 import com.lida.cloud.fragment.main.FragmentPersonal;
 import com.lida.cloud.fragment.main.FragmentShop;
 import com.lida.cloud.fragment.main.FragmentShopCar;
+import com.lida.cloud.widght.BaseApiCallback;
 import com.lida.cloud.widght.dialog.DialogGoSetting;
 import com.lida.cloud.widght.grandienttab.GradientTabStrip;
 import com.lida.cloud.widght.grandienttab.GradientTabStripAdapter;
 import com.midian.base.base.BaseFragmentActivity;
+import com.midian.base.bean.NetResult;
 import com.vondear.rxtools.RxPermissionTool;
 import com.vondear.rxtools.view.RxToast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

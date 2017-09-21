@@ -20,6 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="家居饰品客厅装饰摆件"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="#404040"
             android:textSize="13sp"/>
         <LinearLayout
