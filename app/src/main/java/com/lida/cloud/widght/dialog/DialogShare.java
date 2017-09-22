@@ -118,7 +118,7 @@ public class DialogShare extends Dialog {
         UMImage umImage = new UMImage(context, R.drawable.icon_logo);
         new ShareAction((Activity) context).setPlatform(platform)
                 .withTitle(title)
-                .withText(content)
+                .withText(" ")
                 .withMedia(umImage)
                 .withTargetUrl(targetUrl)
                 .setCallback(listener)

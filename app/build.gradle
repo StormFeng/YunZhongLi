@@ -7,10 +7,14 @@ android {
         applicationId "com.lida.cloud"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 16
-        versionName "1.1.6"
+        versionCode 17
+        versionName "1.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' , 'x86' , 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
@@ -52,4 +56,6 @@ dependencies {
     compile 'com.github.vipulasri:timelineview:1.0.5'
     compile 'com.github.baoyachi:StepView:1.9'
     compile project(':rxtools')
+
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
 }

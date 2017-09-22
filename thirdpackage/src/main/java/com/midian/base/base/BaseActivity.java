@@ -81,7 +81,7 @@ public class BaseActivity extends Activity implements ApiCallback,OnClickListene
 	}
 
 	public void showLoadingDlg() {
-		showLoadingDlg("", true);
+		showLoadingDlg("", false);
 	}
 
 	public void hideLoadingDlg() {

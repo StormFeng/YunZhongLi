@@ -78,6 +78,8 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
     private ActivityReadyToCommitOrderBean bean;
     private ActivityReadyToCommitOrderBeanCopy beanCopy;
 
+    private String addressId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +128,13 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
                     RxTextUtils.getBuilder("合计:").setForegroundColor(Color.parseColor("#404040"))
                             .append("￥"+ data.getPrice()).setForegroundColor(Color.parseColor("#FF3600"))
                             .into(tvPrice);
+                    if(!RxDataUtils.isNullString(data.getAddress().getId())){
+                        llAddress.setVisibility(View.VISIBLE);
+                        tvName.setText(data.getAddress().getName());
+                        tvPhone.setText(RxDataUtils.hideMobilePhone4(data.getAddress().getMobile()));
+                        tvAddress.setText(data.getAddress().getProvince()+" "+ data.getAddress().getCity()+" "+data.getAddress().getCountry()+" "+data.getAddress().getDetail());
+                        addressId = data.getAddress().getId();
+                    }
                 }
                 if("orderConfirmCopy".equals(tag)){
                     beanCopy = (ActivityReadyToCommitOrderBeanCopy) res;
@@ -138,6 +147,13 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
                     RxTextUtils.getBuilder("合计:").setForegroundColor(Color.parseColor("#404040"))
                             .append("￥"+ data.getPrice()).setForegroundColor(Color.parseColor("#FF3600"))
                             .into(tvPrice);
+                    if(!RxDataUtils.isNullString(data.getAddress().getId())){
+                        llAddress.setVisibility(View.VISIBLE);
+                        tvName.setText(data.getAddress().getName());
+                        tvPhone.setText(RxDataUtils.hideMobilePhone4(data.getAddress().getMobile()));
+                        tvAddress.setText(data.getAddress().getProvince()+" "+ data.getAddress().getCity()+" "+data.getAddress().getCountry()+" "+data.getAddress().getDetail());
+                        addressId = data.getAddress().getId();
+                    }
                 }
                 if("orderCreate".equals(tag)){
                     Intent intent = new Intent("android.intent.action.RefreshShopCar");
@@ -204,7 +220,7 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
                 UIHelper.jumpForResult(_activity,ActivityAddress.class,bundle,1001);
                 break;
             case R.id.btnCommit:
-                if(addressBean==null){
+                if(RxDataUtils.isNullString(addressId)){
                     RxToast.error("请选择收货地址");
                     return;
                 }
@@ -212,12 +228,12 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
                     for (int i = 0; i < bean.getData().get(0).getList().size(); i++) {
                         remark.add(bean.getData().get(0).getList().get(i).getRemark());
                     }
-                    AppUtil.getApiClient(ac).orderCreate(_activity,remark,addressBean.getId(),callback);
+                    AppUtil.getApiClient(ac).orderCreate(_activity,remark,addressId,callback);
                 }else{
                     for (int i = 0; i < beanCopy.getData().get(0).getList().size(); i++) {
                         remark.add(beanCopy.getData().get(0).getList().get(i).getRemark());
                     }
-                    AppUtil.getApiClient(ac).orderCreate(_activity,goodsid,total,specid,addressBean.getId(),remark,callback);
+                    AppUtil.getApiClient(ac).orderCreate(_activity,goodsid,total,specid,addressId,remark,callback);
                 }
                 break;
         }
@@ -231,10 +247,11 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
             switch (requestCode){
                 case 1001:
                     addressBean = (AddressListBean.DataBean.ListBean) data.getExtras().getSerializable("data");
+                    addressId = addressBean.getId();
                     llAddress.setVisibility(View.VISIBLE);
                     tvName.setText(addressBean.getName());
                     tvPhone.setText(RxDataUtils.hideMobilePhone4(addressBean.getMobile()));
-                    tvAddress.setText(addressBean.getDetail());
+                    tvAddress.setText(addressBean.getProvince()+" "+ addressBean.getCity()+" "+addressBean.getCountry()+" "+addressBean.getDetail());
                     break;
                 case 1002:
                     finish();

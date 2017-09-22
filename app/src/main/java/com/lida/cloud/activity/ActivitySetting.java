@@ -2,12 +2,14 @@ package com.lida.cloud.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lida.cloud.R;
 import com.midian.base.base.BaseActivity;
 import com.midian.base.util.UIHelper;
 import com.midian.base.widget.BaseLibTopbarView;
+import com.tencent.bugly.beta.Beta;
 import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.RxDeviceUtils;
 import com.vondear.rxtools.RxFileUtils;
@@ -29,6 +31,8 @@ public class ActivitySetting extends BaseActivity {
     TextView tvVersion;
     @BindView(R.id.tvCache)
     TextView tvCache;
+    @BindView(R.id.llCheckUpdate)
+    LinearLayout llCheckUpdate;
 
     private RxDialogSureCancel dialog;
 
@@ -43,20 +47,20 @@ public class ActivitySetting extends BaseActivity {
         tvVersion.setText(RxDeviceUtils.getAppVersionName(_activity));
     }
 
-    @OnClick({R.id.llClearCache,R.id.llAboutUs,R.id.btnOut})
+    @OnClick({R.id.llClearCache, R.id.llAboutUs, R.id.btnOut, R.id.llCheckUpdate})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.llClearCache:
-                if( RxFileUtils.cleanCustomCache(RxFileUtils.getDiskCacheDir(_activity))){
-                    UIHelper.t(_activity,"删除缓存成功!");
+                if (RxFileUtils.cleanCustomCache(RxFileUtils.getDiskCacheDir(_activity))) {
+                    UIHelper.t(_activity, "删除缓存成功!");
                     tvCache.setText("0KB");
                 }
                 break;
             case R.id.llAboutUs:
-                UIHelper.jump(_activity,ActivityAboutUs.class);
+                UIHelper.jump(_activity, ActivityAboutUs.class);
                 break;
             case R.id.btnOut:
-                if(dialog==null){
+                if (dialog == null) {
                     dialog = new RxDialogSureCancel(_activity);
                     dialog.getTvTitle().setVisibility(View.GONE);
                     dialog.setContent("退出登录？");
@@ -65,17 +69,19 @@ public class ActivitySetting extends BaseActivity {
                 }
                 dialog.show();
                 break;
-
+            case R.id.llCheckUpdate:
+                Beta.checkUpgrade();
+                break;
         }
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.tv_sure:
                     ac.clearUserInfo();
-                    RxActivityUtils.skipActivityAndFinishAll(_activity,ActivityLoginAct.class);
+                    RxActivityUtils.skipActivityAndFinishAll(_activity, ActivityLoginAct.class);
                     break;
                 case R.id.tv_cancel:
                     dialog.dismiss();

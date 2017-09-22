@@ -89,7 +89,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 	}
 
 	public void showLoadingDlg() {
-		showLoadingDlg("", true);
+		showLoadingDlg("", false);
 	}
 
 	public void hideLoadingDlg() {

@@ -45,6 +45,15 @@ public class ActivityReadyToCommitOrderBean extends NetResult {
         private String total;
         private String price;
         private List<ListBean> list;
+        private AddressBean address;
+
+        public AddressBean getAddress() {
+            return address;
+        }
+
+        public void setAddress(AddressBean address) {
+            this.address = address;
+        }
 
         public String getTotal() {
             return total;
@@ -68,6 +77,99 @@ public class ActivityReadyToCommitOrderBean extends NetResult {
 
         public void setList(List<ListBean> list) {
             this.list = list;
+        }
+
+        public static class AddressBean{
+            private String id;
+            private String name;
+            private String mobile;
+            private String province;
+            private String city;
+            private String country;
+            private String detail;
+            private String isdefault;
+            private String user_id;
+            private String update_time;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getMobile() {
+                return mobile;
+            }
+
+            public void setMobile(String mobile) {
+                this.mobile = mobile;
+            }
+
+            public String getProvince() {
+                return province;
+            }
+
+            public void setProvince(String province) {
+                this.province = province;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getCountry() {
+                return country;
+            }
+
+            public void setCountry(String country) {
+                this.country = country;
+            }
+
+            public String getDetail() {
+                return detail;
+            }
+
+            public void setDetail(String detail) {
+                this.detail = detail;
+            }
+
+            public String getIsdefault() {
+                return isdefault;
+            }
+
+            public void setIsdefault(String isdefault) {
+                this.isdefault = isdefault;
+            }
+
+            public String getUser_id() {
+                return user_id;
+            }
+
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getUpdate_time() {
+                return update_time;
+            }
+
+            public void setUpdate_time(String update_time) {
+                this.update_time = update_time;
+            }
         }
 
         public static class ListBean {

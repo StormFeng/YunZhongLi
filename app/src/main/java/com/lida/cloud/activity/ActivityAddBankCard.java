@@ -69,7 +69,7 @@ public class ActivityAddBankCard extends BaseActivity {
                     return;
                 }
                 if(!RxRegUtils.isBankCard(cardNum)){
-                    RxToast.error("银行卡号码格式正确");
+                    RxToast.error("银行卡号码格式不正确");
                     AnimatorUtils.onVibrationView(etCardNum);
                     return;
                 }

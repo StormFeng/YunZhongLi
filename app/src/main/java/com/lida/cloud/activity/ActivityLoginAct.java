@@ -81,6 +81,8 @@ public class ActivityLoginAct extends BaseActivity {
     private float scale = 0.6f; //logo缩放比例
     private int height = 0;
 
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +104,7 @@ public class ActivityLoginAct extends BaseActivity {
     }
 
     private void initView() {
+        mEtMobile.setText(ac.account);
         screenHeight = this.getResources().getDisplayMetrics().heightPixels; //获取屏幕高度
         keyHeight = screenHeight / 3;//弹起高度为屏幕高度的1/3
     }
@@ -198,7 +201,7 @@ public class ActivityLoginAct extends BaseActivity {
             @Override
             public void onClick(View v) {
                 RxKeyboardUtils.hideSoftInput(_activity);
-                String name = mEtMobile.getText().toString();
+                name = mEtMobile.getText().toString();
                 String pass = mEtPassword.getText().toString();
                 if("".equals(name)){
                     AnimatorUtils.onVibrationView(mEtMobile);
@@ -281,6 +284,7 @@ public class ActivityLoginAct extends BaseActivity {
 //                    finish();
 //                    return;
 //                }
+                ac.setAccount(name);
                 ac.setIsagent(bean.getData().get(0).getIsagent());
                 if("1".equals(bean.getData().get(0).getIsagent())){
                     RxActivityUtils.skipActivityAndFinish(_activity, ActivityAgentCenter.class);

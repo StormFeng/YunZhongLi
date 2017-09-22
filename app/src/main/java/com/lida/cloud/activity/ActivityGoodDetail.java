@@ -370,7 +370,7 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
             case R.id.btnShare:
                 DialogShare dialogShare = new DialogShare(_activity);
                 dialogShare.share(SHARE_MEDIA.WEIXIN,"加入云众利，消费不再贵",
-                        "泉州云众利网络科技有限公司（以下简称：云众利）由福建本土民营企业家黄文汉先生投资创建，于2017年4月在泉州工商局注册成立（目前注册资金为800万元）",
+                        "加入云众利，消费不再贵",
                         data.getData().get(0).getUrl());
                 break;
             case R.id.btnAddToShopCar:

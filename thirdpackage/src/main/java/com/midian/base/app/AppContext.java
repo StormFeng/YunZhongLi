@@ -53,6 +53,7 @@ public class AppContext extends Application {
     public String city = "";
     public String district = "";
     public String isagent = "0";
+    public String account = "";
 
     public boolean ischange = false;
     public DisplayImageOptions options;
@@ -99,6 +100,7 @@ public class AppContext extends Application {
         district = getProperty("district");
         isagent = getProperty("isagent");
         key = getProperty("key");
+        account = getProperty("account");
 
         city_name = getProperty("city_name");
         city_id = getProperty("city_id");
@@ -490,9 +492,22 @@ public class AppContext extends Application {
         return exist;
     }
 
+    /**
+     * 是否是代理登录
+     * @param isagent
+     */
     public void setIsagent(String isagent) {
         this.isagent = isagent;
         setProperty("isagent", isagent);
+    }
+
+    /**
+     * 保存登录账号
+     * @param account
+     */
+    public void setAccount(String account) {
+        this.account = account;
+        setProperty("account", account);
     }
 
     /**
