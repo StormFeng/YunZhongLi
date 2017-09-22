@@ -27,7 +27,7 @@
             android:hint="请输入充值金额"
             android:background="@null"
             android:textSize="14sp"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
     <View

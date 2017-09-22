@@ -21,13 +21,20 @@
                 android:layout_height="wrap_content"
                 android:text="请选择规格"
                 android:textSize="16sp"/>
-            <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/tagColor"
+            <com.lida.cloud.widght.AutoScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:max_select="1">
-            </com.zhy.view.flowlayout.TagFlowLayout>
+                android:fillViewport="true"
+                android:fadingEdge="none"
+                android:overScrollMode="never"
+                android:layout_marginTop="10dp">
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/tagColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:max_select="1">
+                </com.zhy.view.flowlayout.TagFlowLayout>
+            </com.lida.cloud.widght.AutoScrollView>
         </LinearLayout>
         <ImageView
             android:id="@+id/ivClose"

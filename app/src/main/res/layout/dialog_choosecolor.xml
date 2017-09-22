@@ -6,12 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -72,13 +67,20 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:text="颜色分类"/>
-                <com.zhy.view.flowlayout.TagFlowLayout
-                    android:id="@+id/tagColor"
+                <com.lida.cloud.widght.AutoScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:max_select="1">
-                </com.zhy.view.flowlayout.TagFlowLayout>
+                    android:fillViewport="true"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never"
+                    android:layout_marginTop="10dp">
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/tagColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:max_select="1">
+                    </com.zhy.view.flowlayout.TagFlowLayout>
+                </com.lida.cloud.widght.AutoScrollView>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,13 +101,12 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
     <Button
         android:id="@+id/btnOk"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="确定"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:textSize="17sp"
         android:textColor="@color/white"
         android:background="#FF3600"/>

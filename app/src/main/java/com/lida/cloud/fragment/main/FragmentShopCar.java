@@ -196,8 +196,15 @@ public class FragmentShopCar extends BaseFragment {
                     AppUtil.getApiClient(ac).cartDefault(goodBean.getData().get(i).getList().get(n).getId(),
                             isSelect,new BaseApiCallback(){
                                 @Override
+                                public void onApiStart(String tag) {
+                                    super.onApiStart(tag);
+                                    cbSelectAll.setEnabled(false);
+                                }
+
+                                @Override
                                 public void onApiSuccess(NetResult res, String tag) {
                                     super.onApiSuccess(res, tag);
+                                    cbSelectAll.setEnabled(true);
                                     if(res.isOK()){
                                         if(finalN ==goodBean.getData().get(finalI).getList().size()-1){
                                             LogUtils.e("finalN ==goodBean.getData().get(finalI).getList().size()-1");

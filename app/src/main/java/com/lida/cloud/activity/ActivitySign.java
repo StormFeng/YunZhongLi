@@ -1,5 +1,6 @@
 package com.lida.cloud.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -102,6 +103,8 @@ public class ActivitySign extends BaseActivity {
                 if ("sign".equals(tag)) {
                     RxToast.success("签到成功！");
                     getData();
+                    Intent intent = new Intent("android.intent.action.PersonalInfoRefreshBroadCast");
+                    sendBroadcast(intent);
                 }
                 if ("signDetail".equals(tag)) {
                     bean = (SignMonthBean) res;

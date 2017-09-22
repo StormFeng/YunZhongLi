@@ -80,6 +80,15 @@ public class ActivityReadyToCommitOrderBean extends NetResult {
             private String shopid;
             private String selshopname;
             private List<GoodsBean> goods;
+            private String remark;
+
+            public String getRemark() {
+                return remark;
+            }
+
+            public void setRemark(String remark) {
+                this.remark = remark;
+            }
 
             public String getShopid() {
                 return shopid;

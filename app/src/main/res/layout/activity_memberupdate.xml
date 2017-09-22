@@ -20,7 +20,8 @@
             android:id="@+id/ivHead"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:riv_corner_radius="30dp"
+            app:riv_corner_radius="50dp"
+            android:scaleType="centerCrop"
             android:src="#eee"/>
         <TextView
             android:id="@+id/tvAccount"

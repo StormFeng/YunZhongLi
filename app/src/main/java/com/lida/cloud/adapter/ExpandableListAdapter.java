@@ -1,6 +1,8 @@
 package com.lida.cloud.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.apkfuns.logutils.LogUtils;
 import com.lida.cloud.R;
+import com.lida.cloud.activity.ActivityGoodDetail;
 import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.bean.ShopCarListBean;
 import com.lida.cloud.bean.SpecBean;
@@ -19,6 +22,7 @@ import com.lida.cloud.widght.SmoothCheckBox;
 import com.lida.cloud.widght.dialog.DialogChooseSpec;
 import com.midian.base.app.AppContext;
 import com.midian.base.bean.NetResult;
+import com.midian.base.util.UIHelper;
 import com.vondear.rxtools.view.RxToast;
 import com.vondear.rxtools.view.dialog.RxDialogSureCancel;
 import java.util.ArrayList;
@@ -229,6 +233,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if(sp_image!=null){
             ac.setImage(holder.ivGood, sp_image);
         }
+        holder.tvLimitCount.setText(goodBean.getData().get(groupPosition).getList().get(childPosition).getSpec_name());
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("id",goodBean.getData().get(groupPosition).getList().get(childPosition).getGoodsid());
+                UIHelper.jump((Activity) context, ActivityGoodDetail.class,bundle);
+            }
+        });
         return convertView;
 
     }
@@ -276,13 +289,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                                     @Override
                                     public void onApiStart(String tag) {
                                         super.onApiStart(tag);
-                                        checkBox.setChecked(false);
+                                        checkBox.setEnabled(false);
                                     }
 
                                     @Override
                                     public void onApiSuccess(NetResult res, String tag) {
                                         super.onApiSuccess(res, tag);
-                                        checkBox.setChecked(true);
+                                        checkBox.setEnabled(true);
                                         if(res.isOK()){
                                             if(finalI == goodBean.getData().get(groupPosition).getList().size()-1){
                                                 goodBean.getData().get(groupPosition).setSelected(!checkBox.isChecked());

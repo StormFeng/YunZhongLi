@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="购买返2倍积分"
+                android:text="购买返1倍积分"
                 android:textSize="14sp"
                 android:textColor="#403F3F"
                 android:drawableRight="@drawable/icon_arrow_r"
@@ -93,16 +93,16 @@
                 android:text="买家留言"
                 android:textSize="14sp"
                 android:textColor="#403F3F"/>
-            <TextView
-                android:id="@+id/tvRemark"
+            <EditText
+                android:id="@+id/etRemark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/white"
                 android:layout_marginTop="10dp"
-                android:text="选填：对本次交易的说明（建议和店家沟通后填写）"
+                android:hint="选填：对本次交易的说明（建议和店家沟通后填写）"
                 android:textSize="12sp"
-                android:textColor="#666"
-                android:gravity="end"/>
+                android:textColor="#666"/>
         </LinearLayout>
 
     </LinearLayout>

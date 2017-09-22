@@ -91,6 +91,15 @@ public class ActivityReadyToCommitOrderBeanCopy extends NetResult {
             private String create_time;
             private String status;
             private String total;
+            private String remark;
+
+            public String getRemark() {
+                return remark;
+            }
+
+            public void setRemark(String remark) {
+                this.remark = remark;
+            }
 
             public String getTotal() {
                 return total;

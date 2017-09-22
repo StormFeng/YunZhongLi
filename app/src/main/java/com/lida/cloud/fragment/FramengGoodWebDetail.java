@@ -23,6 +23,7 @@ public class FramengGoodWebDetail extends BaseFragment {
         data = (GoodDetailBean) getArguments().getSerializable("data");
         LogUtils.e(data+"\n********************************");
         WebView webView = new WebView(_activity);
+        // 设置WebView属性，能够执行JavaScript脚本
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -30,6 +31,14 @@ public class FramengGoodWebDetail extends BaseFragment {
             }
         });
         webView.loadUrl(data.getData().get(0).getContent());
+        webView.getSettings().setJavaScriptEnabled(true);
+        // 设置可以支持缩放
+        webView.getSettings().setSupportZoom(true);
+        // 设置出现缩放工具
+        webView.getSettings().setBuiltInZoomControls(true);
+        // 为图片添加放大缩小功能
+        webView.getSettings().setUseWideViewPort(true);
+        webView.setInitialScale(100);
         return webView;
     }
 }

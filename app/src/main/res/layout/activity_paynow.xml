@@ -30,7 +30,7 @@
             android:background="@null"
             android:textSize="14sp"
             android:layout_marginLeft="20dp"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:singleLine="true"/>
     </LinearLayout>
     <Button

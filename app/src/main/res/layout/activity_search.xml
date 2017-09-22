@@ -16,6 +16,9 @@
         android:hint="请输入关键字搜索"
         android:background="@drawable/shape_edit"
         android:padding="5dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:imeOptions="actionSearch"
         android:layout_margin="10dp"
         android:textSize="13sp"/>
 

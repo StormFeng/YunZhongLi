@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 import com.lida.cloud.R;
 import com.lida.cloud.bean.ActivityReadyToCommitOrderBeanCopy;
@@ -47,8 +48,8 @@ public class AdapterActivityReadyTocommitOrderCopy extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder viewHolder;
         if(convertView==null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_activityreadytocommitorder, null);
             viewHolder = new ViewHolder(convertView);
@@ -58,6 +59,14 @@ public class AdapterActivityReadyTocommitOrderCopy extends BaseAdapter {
         }
         viewHolder.tvName.setText(data.get(position).getStore_name());
         viewHolder.lvGoods.setAdapter(new AdapterActivityReadyTocommitOrderChildCopy(context,data));
+        viewHolder.etRemark.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    data.get(position).setRemark(viewHolder.etRemark.getText().toString());
+                }
+            }
+        });
         return convertView;
     }
 
@@ -70,8 +79,8 @@ public class AdapterActivityReadyTocommitOrderCopy extends BaseAdapter {
         TextView tvSelBack;
         @BindView(R.id.tvExpress)
         TextView tvExpress;
-        @BindView(R.id.tvRemark)
-        TextView tvRemark;
+        @BindView(R.id.etRemark)
+        EditText etRemark;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

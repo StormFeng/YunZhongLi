@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lida.cloud.R;
@@ -50,8 +51,8 @@ public class AdapterActivityReadyTocommitOrder extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder viewHolder;
         if(convertView==null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_activityreadytocommitorder, null);
             viewHolder = new ViewHolder(convertView);
@@ -61,6 +62,14 @@ public class AdapterActivityReadyTocommitOrder extends BaseAdapter {
         }
         viewHolder.tvName.setText(data.get(position).getSelshopname());
         viewHolder.lvGoods.setAdapter(new AdapterActivityReadyTocommitOrderChild(context,data.get(position).getGoods()));
+        viewHolder.etRemark.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    data.get(position).setRemark(viewHolder.etRemark.getText().toString());
+                }
+            }
+        });
         return convertView;
     }
 
@@ -73,8 +82,8 @@ public class AdapterActivityReadyTocommitOrder extends BaseAdapter {
         TextView tvSelBack;
         @BindView(R.id.tvExpress)
         TextView tvExpress;
-        @BindView(R.id.tvRemark)
-        TextView tvRemark;
+        @BindView(R.id.etRemark)
+        EditText etRemark;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

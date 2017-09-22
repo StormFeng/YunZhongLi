@@ -60,6 +60,8 @@ public class ActivityIntegralBuy extends BaseActivity {
     LinearLayout llCount;
     @BindView(R.id.tvNotice)
     TextView tvNotice;
+    @BindView(R.id.tvPrice)
+    TextView tvPrice;
 
     private PriceBean bean;
     private double money;
@@ -82,19 +84,19 @@ public class ActivityIntegralBuy extends BaseActivity {
         Set<Integer> selectedList = tagIntegral.getSelectedList();
         Iterator<Integer> iterator = selectedList.iterator();
         int position = 0;
-        if(selectedList.size()==0){
+        if (selectedList.size() == 0) {
             RxToast.error("请选择积分数量");
             return;
         }
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             position = iterator.next();
         }
-        if(position == items.size()-1){
-            money = RxDataUtils.stringToInt(etCount.getText().toString())*per/100;
-        }else{
+        if (position == items.size() - 1) {
+            money = RxDataUtils.stringToInt(etCount.getText().toString()) * 100;
+        } else {
             money = items.get(position).getPrice();
         }
-        if(dialog==null){
+        if (dialog == null) {
             dialog = new RxDialogSureCancel(_activity);
             dialog.getTvTitle().setVisibility(View.GONE);
             dialog.getTvContent().setText("确认支付？");
@@ -107,12 +109,12 @@ public class ActivityIntegralBuy extends BaseActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.tv_cancel:
                     dialog.dismiss();
                     break;
                 case R.id.tv_sure:
-                    AppUtil.getApiClient(ac).businessCredit(String.valueOf(money),callback);
+                    AppUtil.getApiClient(ac).businessCredit(String.valueOf(money), callback);
                     break;
             }
         }
@@ -133,12 +135,12 @@ public class ActivityIntegralBuy extends BaseActivity {
         public void onApiSuccess(NetResult res, String tag) {
             hideLoadingDlg();
             if (res.isOK()) {
-                if("creditRatio".equals(tag)){
+                if ("creditRatio".equals(tag)) {
                     CreditRatioBean data = (CreditRatioBean) res;
-                    per = RxDataUtils.stringToDouble(data.getData().get(0).getRatio());
+                    per = RxDataUtils.stringToDouble(data.getData().get(0).getRatio())/100;
                     initData(per);
                 }
-                if("businessCredit".equals(tag)){
+                if ("businessCredit".equals(tag)) {
                     SignBean bean = (SignBean) res;
                     String sign = AesEncryptionUtil.decrypt(bean.getData().get(0).getAesData());
                     JSONObject jsonObject;
@@ -149,13 +151,13 @@ public class ActivityIntegralBuy extends BaseActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    AppUtil.getApiClient(ac).payAlipay(pay_sn,callback);
+                    AppUtil.getApiClient(ac).payAlipay(pay_sn, callback);
                 }
-                if("payAlipay".equals(tag)){
+                if ("payAlipay".equals(tag)) {
                     PayBean bean = (PayBean) res;
                     String orderInfo = bean.getData().get(0).getOrderString();
                     LogUtils.e(orderInfo);
-                    new AlipayUtils().builder(_activity,orderInfo).pay();
+                    new AlipayUtils().builder(_activity, orderInfo).pay();
                 }
             } else {
                 RxToast.error(res.getMessage());
@@ -180,16 +182,16 @@ public class ActivityIntegralBuy extends BaseActivity {
         for (int i = 0; i < 5; i++) {
             switch (i) {
                 case 0:
-                    bean = new PriceBean(100, 100 * v / 100);
+                    bean = new PriceBean(100 * v, 100);
                     break;
                 case 1:
-                    bean = new PriceBean(500, 500 * v / 100);
+                    bean = new PriceBean(500 * v, 500);
                     break;
                 case 2:
-                    bean = new PriceBean(1000, 1000 * v / 100);
+                    bean = new PriceBean(1000 * v, 1000);
                     break;
                 case 3:
-                    bean = new PriceBean(5000, 5000 * v / 100);
+                    bean = new PriceBean(5000 * v, 5000);
                     break;
                 case 4:
                     bean = new PriceBean();
@@ -204,11 +206,11 @@ public class ActivityIntegralBuy extends BaseActivity {
                 TextView tvCount = (TextView) view.findViewById(R.id.tvCount);
                 TextView tvPrice = (TextView) view.findViewById(R.id.tvPrice);
                 if (bean.getCount() == 0) {
-                    tvCount.setText("其他数量(分)");
-                    tvPrice.setText("*请填写100的倍数");
+                    tvPrice.setText("其他金额(元)");
+                    tvCount.setText("*请填写100的倍数");
                 } else {
-                    tvCount.setText(bean.getCount() + "分");
-                    tvPrice.setText("售价：" + RxDataUtils.getAmountValue(bean.getPrice()) + "元");
+                    tvPrice.setText(RxDataUtils.getAmountValue(bean.getPrice()) + "元");
+                    tvCount.setText("可获得积分：" + bean.getCount());
                 }
                 return view;
             }
@@ -233,11 +235,15 @@ public class ActivityIntegralBuy extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (RxDataUtils.isNullString(s.toString())) {
                     tvNotice.setVisibility(View.GONE);
+                    tvPrice.setVisibility(View.GONE);
                     return;
                 }
                 int i = RxDataUtils.stringToInt(s.toString());
+                double v1 = i * 100 * per;
                 tvNotice.setVisibility(View.VISIBLE);
-                tvNotice.setText("已输入积分：" + i * 100);
+                tvPrice.setVisibility(View.VISIBLE);
+                tvPrice.setText("已输入金额：" + i * 100);
+                tvNotice.setText("可获得积分：" + v1);
             }
 
             @Override
@@ -248,22 +254,22 @@ public class ActivityIntegralBuy extends BaseActivity {
     }
 
     class PriceBean {
-        private int count;
+        private double count;
         private double price;
 
         public PriceBean() {
         }
 
-        public PriceBean(int count, double price) {
+        public PriceBean(double count, double price) {
             this.count = count;
             this.price = price;
         }
 
-        public int getCount() {
+        public double getCount() {
             return count;
         }
 
-        public void setCount(int count) {
+        public void setCount(double count) {
             this.count = count;
         }
 

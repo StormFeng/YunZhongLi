@@ -180,6 +180,7 @@ public class ActivityGoodDetail extends BaseFragmentActivity implements DialogCh
                     tvMarketPrice.setText("市场参考价：¥" + bean.getMarket_price());
                     tvStock.setText("库存：" + bean.getStock());
                     tvShopName.setText(bean.getStore().getStore_name());
+                    tvPosition.setText(bean.getStore().getArea());
                     if (bean.getStore().getLogo() != null) {
                         ac.setImage(ivShop, bean.getStore().getLogo());
                     }

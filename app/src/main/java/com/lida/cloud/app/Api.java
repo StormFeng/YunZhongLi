@@ -1054,14 +1054,16 @@ public class Api extends BaseApiClient {
      * @param context
      */
     public void orderCreate(Context context, String goodsid, String total, String specid,
-                            String addressid, String remark, ApiCallback callback){
+                            String addressid, List<String> remark, ApiCallback callback){
         AjaxParams params = new AjaxParams();
         params.put("memid", ac.memid);
         params.put("id", goodsid);
         params.put("total", total);
         params.put("specid", specid);
         params.put("addressid", addressid);
-        params.put("remark", remark);
+        for (int i = 0; i < remark.size(); i++) {
+            params.put("remark[]", remark.get(i));
+        }
         params.put("sign",AesEncryptionUtil.getBaseSign(context));
         get(callback, Constant.ORDERCREATE, params, OrderCreateBean.class,
                 getMethodName(Thread.currentThread().getStackTrace()));

@@ -31,6 +31,10 @@ import com.vondear.rxtools.RxDataUtils;
 import com.vondear.rxtools.RxTextUtils;
 import com.vondear.rxtools.view.RxToast;
 import com.vondear.rxtools.view.dialog.RxDialogSureCancel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,6 +74,10 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
     private String total;
     private String specid;
 
+    private List<String> remark = new ArrayList<>();
+    private ActivityReadyToCommitOrderBean bean;
+    private ActivityReadyToCommitOrderBeanCopy beanCopy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +116,7 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
             hideLoadingDlg();
             if (res.isOK()) {
                 if("orderConfirm".equals(tag)){
-                    ActivityReadyToCommitOrderBean bean = (ActivityReadyToCommitOrderBean) res;
+                    bean = (ActivityReadyToCommitOrderBean) res;
                     ActivityReadyToCommitOrderBean.DataBean data = bean.getData().get(0);
                     lvGoods.setAdapter(new AdapterActivityReadyTocommitOrder(_activity, data.getList()));
                     RxTextUtils.getBuilder("共").setForegroundColor(Color.parseColor("#404040"))
@@ -120,8 +128,8 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
                             .into(tvPrice);
                 }
                 if("orderConfirmCopy".equals(tag)){
-                    ActivityReadyToCommitOrderBeanCopy bean = (ActivityReadyToCommitOrderBeanCopy) res;
-                    ActivityReadyToCommitOrderBeanCopy.DataBean data = bean.getData().get(0);
+                    beanCopy = (ActivityReadyToCommitOrderBeanCopy) res;
+                    ActivityReadyToCommitOrderBeanCopy.DataBean data = beanCopy.getData().get(0);
                     lvGoods.setAdapter(new AdapterActivityReadyTocommitOrderCopy(_activity, data.getList()));
                     RxTextUtils.getBuilder("共").setForegroundColor(Color.parseColor("#404040"))
                             .append(data.getTotal()).setForegroundColor(Color.parseColor("#FF3600"))
@@ -201,9 +209,15 @@ public class ActivityReadyToCommitOrder extends BaseActivity {
                     return;
                 }
                 if(mBundle==null){
-                    AppUtil.getApiClient(ac).orderCreate(_activity,null,addressBean.getId(),callback);
+                    for (int i = 0; i < bean.getData().get(0).getList().size(); i++) {
+                        remark.add(bean.getData().get(0).getList().get(i).getRemark());
+                    }
+                    AppUtil.getApiClient(ac).orderCreate(_activity,remark,addressBean.getId(),callback);
                 }else{
-                    AppUtil.getApiClient(ac).orderCreate(_activity,goodsid,total,specid,addressBean.getId(),"",callback);
+                    for (int i = 0; i < beanCopy.getData().get(0).getList().size(); i++) {
+                        remark.add(beanCopy.getData().get(0).getList().get(i).getRemark());
+                    }
+                    AppUtil.getApiClient(ac).orderCreate(_activity,goodsid,total,specid,addressBean.getId(),remark,callback);
                 }
                 break;
         }
