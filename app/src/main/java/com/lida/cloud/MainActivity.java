@@ -17,7 +17,9 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.lida.cloud.activity.ActivityLoginAct;
 import com.lida.cloud.app.AppUtil;
+import com.lida.cloud.app.Constant;
 import com.lida.cloud.bean.SignBean;
 import com.lida.cloud.fragment.main.FragmentHome;
 import com.lida.cloud.fragment.main.FragmentPersonal;
@@ -27,9 +29,12 @@ import com.lida.cloud.widght.BaseApiCallback;
 import com.lida.cloud.widght.dialog.DialogGoSetting;
 import com.lida.cloud.widght.grandienttab.GradientTabStrip;
 import com.lida.cloud.widght.grandienttab.GradientTabStripAdapter;
+import com.midian.base.app.AppManager;
 import com.midian.base.base.BaseFragmentActivity;
 import com.midian.base.bean.NetResult;
+import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.RxPermissionTool;
+import com.vondear.rxtools.RxTimeUtils;
 import com.vondear.rxtools.view.RxToast;
 
 import org.json.JSONException;
@@ -85,15 +90,51 @@ public class MainActivity extends BaseFragmentActivity implements DialogGoSettin
                         .addPermission(Manifest.permission.WRITE_APN_SETTINGS)
                         .initPermission();
             }else{
-                initView();
-                initLocation();
+                refreshToken();
             }
+        }else{
+            refreshToken();
+        }
+        dialogGoSetting = new DialogGoSetting(_activity);
+        dialogGoSetting.setOnButtonClickListener(this);
+    }
+
+    private void refreshToken(){
+        long now = RxTimeUtils.getCurTimeMills();
+        long loginTime = Long.parseLong(ac.timestamp);
+        final long dTime = now - loginTime;
+        LogUtils.e("现在时刻："+RxTimeUtils.milliseconds2String(now));
+        LogUtils.e("现在时刻："+now);
+        LogUtils.e("登录时刻："+RxTimeUtils.milliseconds2String(loginTime));
+        LogUtils.e("登录时刻："+loginTime);
+        LogUtils.e("差值："+dTime);
+        if(dTime >= Constant.REFRESHTIME){
+            AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,new BaseApiCallback(){
+                @Override
+                public void onApiSuccess(NetResult res, String tag) {
+                    super.onApiSuccess(res, tag);
+                    if(res.isOK()){
+                        SignBean bean = (SignBean) res;
+                        try {
+                            JSONObject jsonObject = new JSONObject(bean.getData().get(0).getTokenInfo());
+                            ac.saveUserInfo(jsonObject.getInt("uid")+"",jsonObject.getString("access_token"),
+                                    jsonObject.getString("refresh_token"),jsonObject.getString("timestamp")+"000");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        initView();
+                        initLocation();
+                    }else{
+                        RxToast.error(ac, res.getMessage()).show();
+                        ac.clearUserInfo();
+                        RxActivityUtils.skipActivityAndFinishAll(AppManager.getAppManager().currentActivity(), ActivityLoginAct.class);
+                    }
+                }
+            });
         }else{
             initView();
             initLocation();
         }
-        dialogGoSetting = new DialogGoSetting(_activity);
-        dialogGoSetting.setOnButtonClickListener(this);
     }
 
     private void initView() {
@@ -108,7 +149,6 @@ public class MainActivity extends BaseFragmentActivity implements DialogGoSettin
         vpFragments.setOffscreenPageLimit(3);
         refreshTokenIntent = new Intent(this, RefreshService.class);
         startService(refreshTokenIntent);
-
     }
 
     private void initLocation() {
@@ -176,8 +216,7 @@ public class MainActivity extends BaseFragmentActivity implements DialogGoSettin
             RxToast.warning(_activity,"请在权限设置中为云众利开启定位权限").show();
             dialogGoSetting.show();
         }else{
-            initView();
-            initLocation();
+            refreshToken();
         }
     }
 

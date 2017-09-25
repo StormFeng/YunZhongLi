@@ -7,6 +7,7 @@ import android.os.IBinder;
 import com.apkfuns.logutils.LogUtils;
 import com.lida.cloud.activity.ActivityLoginAct;
 import com.lida.cloud.app.AppUtil;
+import com.lida.cloud.app.Constant;
 import com.lida.cloud.bean.LoginBean;
 import com.lida.cloud.bean.SignBean;
 import com.midian.base.api.ApiCallback;
@@ -46,23 +47,18 @@ public class RefreshService extends Service {
         LogUtils.e("登录时刻："+RxTimeUtils.milliseconds2String(loginTime));
         LogUtils.e("登录时刻："+loginTime);
         LogUtils.e("差值："+dTime);
-        if(dTime > 7200 * 1000){
-            AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
-        }else{
-            timer = new CountDownTimer(dTime, dTime) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
-                }
+        timer = new CountDownTimer(Constant.REFRESHTIME, Constant.REFRESHTIME) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
+            }
 
-                @Override
-                public void onFinish() {
-                    LogUtils.e("onFinish -- 倒计时结束");
-                }
-            };
-            timer.start();
-        }
-
+            @Override
+            public void onFinish() {
+                LogUtils.e("onFinish -- 倒计时结束");
+            }
+        };
+        timer.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
