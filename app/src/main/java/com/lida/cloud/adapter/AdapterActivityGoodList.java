@@ -67,6 +67,7 @@ public class AdapterActivityGoodList extends BaseAdapter {
         ac.setImage(viewHolder.iv,data.get(position).getGoods_image());
         viewHolder.tvGoodName.setText(data.get(position).getGoods_name());
         viewHolder.tvPrice.setText("消费豆："+data.get(position).getCost());
+        viewHolder.tvAddress.setText(data.get(position).getCity());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +78,7 @@ public class AdapterActivityGoodList extends BaseAdapter {
         });
         return convertView;
     }
+
 
     static class ViewHolder {
         @BindView(R.id.iv)

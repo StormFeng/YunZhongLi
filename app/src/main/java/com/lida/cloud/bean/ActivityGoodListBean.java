@@ -95,6 +95,15 @@ public class ActivityGoodListBean extends NetResult{
             private String goods_image;
             private String cost;
             private String goods_name;
+            private String city;
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
 
             public int getGoods_id() {
                 return goods_id;

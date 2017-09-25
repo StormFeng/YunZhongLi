@@ -92,7 +92,7 @@ public class ActivityIntegralBuy extends BaseActivity {
             position = iterator.next();
         }
         if (position == items.size() - 1) {
-            money = RxDataUtils.stringToInt(etCount.getText().toString()) * 100;
+            money = RxDataUtils.stringToInt(etCount.getText().toString()) * 100 * per;
         } else {
             money = items.get(position).getPrice();
         }
@@ -182,16 +182,16 @@ public class ActivityIntegralBuy extends BaseActivity {
         for (int i = 0; i < 5; i++) {
             switch (i) {
                 case 0:
-                    bean = new PriceBean(100 * v, 100);
+                    bean = new PriceBean(100, 100*v);
                     break;
                 case 1:
-                    bean = new PriceBean(500 * v, 500);
+                    bean = new PriceBean(500, 500*v);
                     break;
                 case 2:
-                    bean = new PriceBean(1000 * v, 1000);
+                    bean = new PriceBean(1000, 1000*v);
                     break;
                 case 3:
-                    bean = new PriceBean(5000 * v, 5000);
+                    bean = new PriceBean(5000, 5000*v);
                     break;
                 case 4:
                     bean = new PriceBean();
@@ -206,11 +206,11 @@ public class ActivityIntegralBuy extends BaseActivity {
                 TextView tvCount = (TextView) view.findViewById(R.id.tvCount);
                 TextView tvPrice = (TextView) view.findViewById(R.id.tvPrice);
                 if (bean.getCount() == 0) {
-                    tvPrice.setText("其他金额(元)");
-                    tvCount.setText("*请填写100的倍数");
+                    tvCount.setText("其他数量(积分)");
+                    tvPrice.setText("*请填写100的倍数");
                 } else {
+                    tvCount.setText(bean.getCount()+"积分");
                     tvPrice.setText(RxDataUtils.getAmountValue(bean.getPrice()) + "元");
-                    tvCount.setText("可获得积分：" + bean.getCount());
                 }
                 return view;
             }
@@ -242,8 +242,8 @@ public class ActivityIntegralBuy extends BaseActivity {
                 double v1 = i * 100 * per;
                 tvNotice.setVisibility(View.VISIBLE);
                 tvPrice.setVisibility(View.VISIBLE);
-                tvPrice.setText("已输入金额：" + i * 100);
-                tvNotice.setText("可获得积分：" + v1);
+                tvPrice.setText("已输入积分：" + i * 100);
+                tvNotice.setText("售价：" + v1 + "元");
             }
 
             @Override

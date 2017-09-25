@@ -74,7 +74,7 @@
                         android:textSize="13sp"
                         android:background="@null"
                         android:inputType="number"
-                        android:hint="请输入充值金额(单位：00)"/>
+                        android:hint="请输入充值数量(单位：00)"/>
 
                     <TextView
                         android:layout_width="wrap_content"

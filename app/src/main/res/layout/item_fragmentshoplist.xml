@@ -53,6 +53,7 @@
                     android:paddingBottom="1dp"
                     android:paddingLeft="3dp"
                     android:paddingRight="3dp"
+                    android:visibility="gone"
                     android:background="@drawable/shape_2radius_solid_orange"
                     android:text="返"/>
                 <TextView
@@ -61,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#454545"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:text="消费立享10%补贴"/>
             </LinearLayout>

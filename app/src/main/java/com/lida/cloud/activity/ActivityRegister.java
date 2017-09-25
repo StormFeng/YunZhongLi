@@ -3,19 +3,22 @@ package com.lida.cloud.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.lida.cloud.MainActivity;
 import com.lida.cloud.R;
 import com.lida.cloud.app.AppUtil;
+import com.lida.cloud.app.Constant;
 import com.midian.base.api.ApiCallback;
 import com.midian.base.base.BaseActivity;
 import com.midian.base.bean.NetResult;
 import com.midian.base.util.AnimatorUtils;
-import com.vondear.rxtools.RxActivityUtils;
+import com.midian.base.util.UIHelper;
 import com.vondear.rxtools.RxRegUtils;
 import com.vondear.rxtools.RxUtils;
 import com.vondear.rxtools.view.RxToast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,7 +42,7 @@ public class ActivityRegister extends BaseActivity {
     EditText etPass;
     @BindView(R.id.etPassAgain)
     EditText etPassAgain;
-//    @BindView(R.id.etName)
+    //    @BindView(R.id.etName)
 //    EditText etName;
 //    @BindView(R.id.etCardID)
 //    EditText etCardID;
@@ -47,6 +50,10 @@ public class ActivityRegister extends BaseActivity {
     Button btnRegister;
     @BindView(R.id.etRecName)
     EditText etRecName;
+    @BindView(R.id.cb)
+    CheckBox cb;
+    @BindView(R.id.tvAgreement)
+    TextView tvAgreement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,54 +62,59 @@ public class ActivityRegister extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btnCode, R.id.btnRegister})
+    @OnClick({R.id.btnCode, R.id.btnRegister, R.id.tvAgreement})
     public void onViewClicked(View view) {
-        String account=etAccount.getText().toString();
-        String phone=etPhone.getText().toString();
-        String code=etCode.getText().toString();
-        String pass=etPass.getText().toString();
-        String passAgain=etPassAgain.getText().toString();
+        String account = etAccount.getText().toString();
+        String phone = etPhone.getText().toString();
+        String code = etCode.getText().toString();
+        String pass = etPass.getText().toString();
+        String passAgain = etPassAgain.getText().toString();
 //        String realName=etName.getText().toString();
 //        String cardId=etCardID.getText().toString();
-        String recName=etRecName.getText().toString();
+        String recName = etRecName.getText().toString();
         switch (view.getId()) {
             case R.id.btnCode:
-                if(!RxRegUtils.isMobileExact(phone)){
+                if (!RxRegUtils.isMobileExact(phone)) {
                     AnimatorUtils.onVibrationView(etPhone);
-                    RxToast.error(_activity,"请输入正确的手机号码").show();
+                    RxToast.error(_activity, "请输入正确的手机号码").show();
                     return;
                 }
-                AppUtil.getApiClient(ac).getMobilecode(phone,"register",apiCallback);
+                AppUtil.getApiClient(ac).getMobilecode(phone, "register", apiCallback);
                 break;
             case R.id.btnRegister:
-                if("".equals(account)){
+                if ("".equals(account)) {
                     AnimatorUtils.onVibrationView(etAccount);
-                    RxToast.warning(_activity,"请输入用户名").show();
+                    RxToast.warning(_activity, "请输入用户名").show();
                     return;
                 }
-                if("".equals(phone)){
+                if ("".equals(phone)) {
                     AnimatorUtils.onVibrationView(etPhone);
-                    RxToast.warning(_activity,"请输入手机号码").show();
+                    RxToast.warning(_activity, "请输入手机号码").show();
                     return;
                 }
-                if(!RxRegUtils.isMobileExact(phone)){
+                if (!RxRegUtils.isMobileExact(phone)) {
                     AnimatorUtils.onVibrationView(etPhone);
-                    RxToast.error(_activity,"请输入正确的手机号码").show();
+                    RxToast.error(_activity, "请输入正确的手机号码").show();
                     return;
                 }
-                if("".equals(pass)){
+                if ("".equals(pass)) {
                     AnimatorUtils.onVibrationView(etPass);
-                    RxToast.warning(_activity,"请输入密码").show();
+                    RxToast.warning(_activity, "请输入密码").show();
                     return;
                 }
-                if("".equals(passAgain)){
+                if ("".equals(passAgain)) {
                     AnimatorUtils.onVibrationView(etPassAgain);
-                    RxToast.warning(_activity,"请再次确认密码").show();
+                    RxToast.warning(_activity, "请再次确认密码").show();
                     return;
                 }
-                if(!pass.equals(passAgain)){
+                if (!pass.equals(passAgain)) {
                     AnimatorUtils.onVibrationView(etPassAgain);
-                    RxToast.error(_activity,"两次输入的密码不一致").show();
+                    RxToast.error(_activity, "两次输入的密码不一致").show();
+                    return;
+                }
+                if(!cb.isChecked()){
+                    AnimatorUtils.onVibrationView(btnRegister);
+                    RxToast.error(_activity, "请阅读并同意《云众利用户注册协议》").show();
                     return;
                 }
 //                if("".equals(realName)){
@@ -125,10 +137,17 @@ public class ActivityRegister extends BaseActivity {
 //                    RxToast.error(_activity,"身份证号码格式不正确").show();
 //                    return;
 //                }
-                AppUtil.getApiClient(ac).register(account,pass,phone,recName,code,apiCallback);
+                AppUtil.getApiClient(ac).register(account, pass, phone, recName, code, apiCallback);
+                break;
+            case R.id.tvAgreement:
+                Bundle bundle = new Bundle();
+                bundle.putString("title","用户注册协议");
+                bundle.putString("url", Constant.BASEURL + "/wap/login/agreement");
+                UIHelper.jump(_activity,ActivityAboutUs.class,bundle);
                 break;
         }
     }
+
     ApiCallback apiCallback = new ApiCallback() {
         @Override
         public void onApiStart(String tag) {
@@ -143,16 +162,16 @@ public class ActivityRegister extends BaseActivity {
         @Override
         public void onApiSuccess(NetResult res, String tag) {
             hideLoadingDlg();
-            if(res.isOK()){
-                if("getMobilecode".equals(tag)){
+            if (res.isOK()) {
+                if ("getMobilecode".equals(tag)) {
                     RxToast.success(_activity, "验证码发送成功").show();
-                    RxUtils.countDown(btnCode,120000,1000,"获取验证码");
+                    RxUtils.countDown(btnCode, 120000, 1000, "获取验证码");
                 }
-                if("register".equals(tag)){
+                if ("register".equals(tag)) {
                     RxToast.success(_activity, "注册成功!").show();
                     finish();
                 }
-            }else{
+            } else {
                 RxToast.error(_activity, res.getMessage()).show();
             }
         }

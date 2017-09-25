@@ -11,10 +11,12 @@ import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.bean.SignMonthBean;
 import com.lida.cloud.widght.signdate.SignDate;
 import com.midian.base.api.ApiCallback;
+import com.midian.base.app.AppManager;
 import com.midian.base.base.BaseActivity;
 import com.midian.base.bean.NetResult;
 import com.midian.base.util.UIHelper;
 import com.midian.base.widget.BaseLibTopbarView;
+import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.view.RxToast;
 
 import java.util.ArrayList;
@@ -125,6 +127,12 @@ public class ActivitySign extends BaseActivity {
                 }
             } else {
                 RxToast.error(res.getMessage());
+                if("10001".equals(res.getErrorCode())){
+                    ac.clearUserInfo();
+                    RxActivityUtils.skipActivityAndFinishAll(AppManager.getAppManager().currentActivity(), ActivityLoginAct.class);
+                }else if("10002".equals(res.getErrorCode())||"10003".equals(res.getErrorCode())){
+                    AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
+                }
             }
         }
 

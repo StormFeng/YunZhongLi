@@ -224,6 +224,38 @@
                         android:hint="请输入推荐人账号" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:background="@drawable/select_cb_read"
+                        android:button="@null"
+                        android:checked="false"
+                        android:padding="7dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我已阅读并同意"
+                        android:textColor="#A1A1A1"
+                        android:layout_marginLeft="7dp"
+                        android:textSize="10sp"/>
+                    <TextView
+                        android:id="@+id/tvAgreement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="《云众利用户注册协议》"
+                        android:textColor="#FA2220"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/btnRegister"
                     android:layout_width="260dp"

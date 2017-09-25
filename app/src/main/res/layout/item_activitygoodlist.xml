@@ -42,7 +42,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:background="@drawable/shape_2radius_stroke_orange"
-                android:text="返2倍积分"/>
+                android:text="返1倍积分"/>
             <TextView
                 android:id="@+id/tvAddress"
                 android:layout_width="0dp"

@@ -218,10 +218,10 @@ public class FragmentPersonal extends BaseFragment{
 
             }else{
                 RxToast.error(_activity,res.getMessage()).show();
-                if("10001".equals(res.getErrorCode())||"10003".equals(res.getErrorCode())){
+                if("10001".equals(res.getErrorCode())){
                     ac.clearUserInfo();
                     RxActivityUtils.skipActivityAndFinishAll(AppManager.getAppManager().currentActivity(), ActivityLoginAct.class);
-                }else if("10002".equals(res.getErrorCode())){
+                }else if("10002".equals(res.getErrorCode())||"10003".equals(res.getErrorCode())){
                     AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
                 }
             }
