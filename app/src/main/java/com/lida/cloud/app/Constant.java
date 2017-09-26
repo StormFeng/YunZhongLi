@@ -9,7 +9,7 @@ public class Constant {
     public static final String IV = "5efd3f6060e20889";
     public static final String KEY = "10bd4db6bca25b9d";
     public static final String BASEURL = "http://shop.qzyzl.com";
-    public static final int REFRESHTIME = 7200 * 1000;
+    public static final int REFRESHTIME = 7000 * 1000;
     /*首页*/
     public static final String INDEX = BASEURL + "/api/index";
 

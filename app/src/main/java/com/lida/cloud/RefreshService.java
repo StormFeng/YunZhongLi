@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import com.apkfuns.logutils.LogUtils;
 import com.lida.cloud.activity.ActivityLoginAct;
+import com.lida.cloud.app.AesEncryptionUtil;
 import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.app.Constant;
 import com.lida.cloud.bean.LoginBean;
@@ -46,18 +47,33 @@ public class RefreshService extends Service {
         LogUtils.e("现在时刻："+now);
         LogUtils.e("登录时刻："+RxTimeUtils.milliseconds2String(loginTime));
         LogUtils.e("登录时刻："+loginTime);
-        LogUtils.e("差值："+dTime);
-        timer = new CountDownTimer(Constant.REFRESHTIME, Constant.REFRESHTIME) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
-            }
+        LogUtils.e("刷新时间："+(Constant.REFRESHTIME - dTime));
+        if(Constant.REFRESHTIME - dTime > 0){
+            timer = new CountDownTimer(Constant.REFRESHTIME - dTime, Constant.REFRESHTIME - dTime - 1) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
+                }
 
-            @Override
-            public void onFinish() {
-                LogUtils.e("onFinish -- 倒计时结束");
-            }
-        };
+                @Override
+                public void onFinish() {
+                    LogUtils.e("onFinish -- 倒计时结束");
+                }
+            };
+        }else{
+            timer = new CountDownTimer(Constant.REFRESHTIME , Constant.REFRESHTIME ) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,callback);
+                }
+
+                @Override
+                public void onFinish() {
+                    LogUtils.e("onFinish -- 倒计时结束");
+                }
+            };
+        }
+
         timer.start();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -77,8 +93,11 @@ public class RefreshService extends Service {
         public void onApiSuccess(NetResult res, String tag) {
             if(res.isOK()){
                 SignBean bean = (SignBean) res;
+                String tokenInfo = bean.getData().get(0).getTokenInfo();
+                String decrypt = AesEncryptionUtil.decrypt(tokenInfo);
+                JSONObject jsonObject;
                 try {
-                    JSONObject jsonObject = new JSONObject(bean.getData().get(0).getTokenInfo());
+                    jsonObject = new JSONObject(decrypt);
                     ac.saveUserInfo(jsonObject.getInt("uid")+"",jsonObject.getString("access_token"),
                             jsonObject.getString("refresh_token"),jsonObject.getString("timestamp")+"000");
                 } catch (JSONException e) {

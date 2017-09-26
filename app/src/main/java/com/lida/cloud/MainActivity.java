@@ -18,6 +18,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.lida.cloud.activity.ActivityLoginAct;
+import com.lida.cloud.app.AesEncryptionUtil;
 import com.lida.cloud.app.AppUtil;
 import com.lida.cloud.app.Constant;
 import com.lida.cloud.bean.SignBean;
@@ -108,15 +109,18 @@ public class MainActivity extends BaseFragmentActivity implements DialogGoSettin
         LogUtils.e("登录时刻："+RxTimeUtils.milliseconds2String(loginTime));
         LogUtils.e("登录时刻："+loginTime);
         LogUtils.e("差值："+dTime);
-        if(dTime >= Constant.REFRESHTIME){
+        if(dTime > Constant.REFRESHTIME){
             AppUtil.getApiClient(ac).token(ac.memid,ac.refresh_token,new BaseApiCallback(){
                 @Override
                 public void onApiSuccess(NetResult res, String tag) {
                     super.onApiSuccess(res, tag);
                     if(res.isOK()){
                         SignBean bean = (SignBean) res;
+                        String tokenInfo = bean.getData().get(0).getTokenInfo();
+                        String decrypt = AesEncryptionUtil.decrypt(tokenInfo);
+                        JSONObject jsonObject;
                         try {
-                            JSONObject jsonObject = new JSONObject(bean.getData().get(0).getTokenInfo());
+                            jsonObject = new JSONObject(decrypt);
                             ac.saveUserInfo(jsonObject.getInt("uid")+"",jsonObject.getString("access_token"),
                                     jsonObject.getString("refresh_token"),jsonObject.getString("timestamp")+"000");
                         } catch (JSONException e) {
